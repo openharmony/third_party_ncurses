@@ -1,7 +1,7 @@
 %global revision 20180923
 Name:          ncurses
 Version:       6.1
-Release:       9
+Release:       11
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -17,15 +17,16 @@ Obsoletes:     ncurses < 5.6-13
 Obsoletes:     libtermcap < 2.0.8-48
 Obsoletes:     termcap < 1:5.5-2
 Provides:      %{name}-base = %{version}-%{release}
-Obsoletes:     %{name}-base = %{version}-%{release}
+Obsoletes:     %{name}-base < %{version}-%{release}
 Provides:      %{name}-libs = %{version}-%{release}
-Obsoletes:     %{name}-libs = %{version}-%{release}
+Obsoletes:     %{name}-libs < %{version}-%{release}
 Provides:      %{name}-compat-libs = %{version}-%{release}
-Obsoletes:     %{name}-compat-libs = %{version}-%{release}
+Provides:      %{name}-compat-libs%{?_isa} = %{version}-%{release}
+Obsoletes:     %{name}-compat-libs < %{version}-%{release}
 Provides:      %{name}-c++-libs = %{version}-%{release}
-Obsoletes:     %{name}-c++-libs = %{version}-%{release}
+Obsoletes:     %{name}-c++-libs < %{version}-%{release}
 Provides:      %{name}-term = %{version}-%{release}
-Obsoletes:     %{name}-term = %{version}-%{release}
+Obsoletes:     %{name}-term < %{version}-%{release}
 
 %description
 The ncurses (new curses) library is a free software emulation of 
@@ -200,5 +201,17 @@ bzip2 NEWS
 
 
 %changelog
+* Wed Oct 30 2019 shenyangyang <shenyangyang4@huawei.com> - 6.1-11
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:modify the obsoletes version
+
+* Thu Oct 17 2019 caomeng <caomeng5@huawei.com> - 6.1-10
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:add ncurses-compat-libs%{?isa} that required by redhat-lsb-core
+
 * Wed Sep 18 2019 openEuler Buildteam <buildteam@openeuler.org> - 6.1-9
 - Package init
