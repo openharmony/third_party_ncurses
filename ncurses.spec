@@ -1,7 +1,7 @@
 %global revision 20180923
 Name:          ncurses
 Version:       6.1
-Release:       11
+Release:       12
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -11,6 +11,10 @@ Patch8:        ncurses-config.patch
 Patch9:        ncurses-libs.patch
 Patch11:       ncurses-urxvt.patch
 Patch12:       ncurses-kbs.patch
+
+Patch6000:     CVE-2019-17594.patch
+Patch6001:     CVE-2019-17595.patch
+
 BuildRequires: gcc gcc-c++ gpm-devel pkgconfig
 
 Obsoletes:     ncurses < 5.6-13
@@ -201,6 +205,12 @@ bzip2 NEWS
 
 
 %changelog
+* Sat Dec 21 2019 openEuler Buildteam <buildteam@openeuler.org> - 6.1-12
+- Type:cves
+- ID:CVE-2019-17594  CVE-2019-17595
+- SUG:NA
+- DESC:fix CVE-2019-17594 and CVE-2019-17595
+
 * Wed Oct 30 2019 shenyangyang <shenyangyang4@huawei.com> - 6.1-11
 - Type:enhancement
 - ID:NA
@@ -211,7 +221,6 @@ bzip2 NEWS
 - Type:enhancement
 - ID:NA
 - SUG:NA
-- DESC:add ncurses-compat-libs%{?isa} that required by redhat-lsb-core
-
+- DESC:add ncurses-compat-libs%{?isa}
 * Wed Sep 18 2019 openEuler Buildteam <buildteam@openeuler.org> - 6.1-9
 - Package init
