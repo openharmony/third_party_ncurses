@@ -1,6 +1,18 @@
-diff -up ncurses-6.1-20180714/misc/ncurses-config.in.config ncurses-6.1-20180714/misc/ncurses-config.in
---- ncurses-6.1-20180714/misc/ncurses-config.in.config	2018-06-10 00:29:01.000000000 +0200
-+++ ncurses-6.1-20180714/misc/ncurses-config.in	2018-07-16 16:23:22.202581815 +0200
+diff -up ncurses-6.1-20191109/misc/gen-pkgconfig.in.config ncurses-6.1-20191109/misc/gen-pkgconfig.in
+--- ncurses-6.1-20191109/misc/gen-pkgconfig.in.config	2019-10-13 00:27:10.000000000 +0200
++++ ncurses-6.1-20191109/misc/gen-pkgconfig.in	2019-11-12 09:52:09.693017663 +0100
+@@ -78,7 +78,7 @@ if [ "$includedir" != "/usr/include" ];
+ fi
+ 
+ lib_flags=
+-for opt in -L$libdir @LDFLAGS@ @EXTRA_LDFLAGS@ @LIBS@
++for opt in -L$libdir @LIBS@
+ do
+ 	case $opt in
+ 	-l*) # LIBS is handled specially below
+diff -up ncurses-6.1-20191109/misc/ncurses-config.in.config ncurses-6.1-20191109/misc/ncurses-config.in
+--- ncurses-6.1-20191109/misc/ncurses-config.in.config	2019-10-12 23:25:17.000000000 +0200
++++ ncurses-6.1-20191109/misc/ncurses-config.in	2019-11-12 09:54:42.069324995 +0100
 @@ -40,7 +40,6 @@ exec_prefix="@exec_prefix@"
  
  bindir="@bindir@"
@@ -9,16 +21,26 @@ diff -up ncurses-6.1-20180714/misc/ncurses-config.in.config ncurses-6.1-20180714
  datarootdir="@datarootdir@"
  datadir="@datadir@"
  mandir="@mandir@"
-@@ -111,7 +110,7 @@ while test $# -gt 0; do
- ENDECHO
- 		;;
- 	--libs)
--		if test "$libdir" = /usr/lib
-+		if true
- 		then
- 			LIBDIR=
- 		else
-@@ -155,7 +154,6 @@ ENDECHO
+@@ -100,7 +99,7 @@ fi
+ # There is no portable way to find the list of standard library directories. 
+ # Require a POSIX shell anyway, to keep this simple.
+ lib_flags=
+-for opt in -L$libdir @LDFLAGS@ @EXTRA_LDFLAGS@ $LIBS
++for opt in $LIBS
+ do
+ 	case $opt in
+ 	-Wl,-z,*) # ignore flags used to manipulate shared image
+@@ -109,9 +108,6 @@ do
+ 	-L*)
+ 		[ -d ${opt##-L} ] || continue
+ 		case ${opt##-L} in
+-		@LD_SEARCHPATH@) # skip standard libdir
+-			continue
+-			;;
+ 		*)
+ 			found=no
+ 			for check in $lib_flags
+@@ -231,7 +227,6 @@ ENDECHO
  		echo $INCS
  		;;
  	--libdir)
