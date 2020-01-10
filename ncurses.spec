@@ -1,7 +1,7 @@
-%global revision 20180923
+%global revision 20191109
 Name:          ncurses
 Version:       6.1
-Release:       12
+Release:       13
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -12,14 +12,9 @@ Patch9:        ncurses-libs.patch
 Patch11:       ncurses-urxvt.patch
 Patch12:       ncurses-kbs.patch
 
-Patch6000:     CVE-2019-17594.patch
-Patch6001:     CVE-2019-17595.patch
-
 BuildRequires: gcc gcc-c++ gpm-devel pkgconfig
 
-Obsoletes:     ncurses < 5.6-13
-Obsoletes:     libtermcap < 2.0.8-48
-Obsoletes:     termcap < 1:5.5-2
+Obsoletes:     rxvt-unicode-terminfo < 9.22-18
 Provides:      %{name}-base = %{version}-%{release}
 Obsoletes:     %{name}-base < %{version}-%{release}
 Provides:      %{name}-libs = %{version}-%{release}
@@ -43,8 +38,6 @@ enhancements over BSD curses. SVr4 curses became the basis of X/Open Curses.
 Summary:       Development files for the ncurses library
 Requires:      %{name} = %{version}-%{release}
 Requires:      pkgconfig
-Obsoletes:     libtermcap-devel < 2.0.8-48
-Provides:      libtermcap-devel = 2.0.8-48
 Provides:      %{name}-static = %{version}-%{release}
 Obsoletes:     %{name}-static = %{version}-%{release}
 
@@ -60,6 +53,7 @@ Requires: %{name} = %{version}-%{release}
 %description help
 This package contains development documentation, manuals 
 for interface function, and related documents.
+
 
 %prep
 %autosetup -n %{name}-%{version}-%{revision} -p1
@@ -167,7 +161,7 @@ rm -f $RPM_BUILD_ROOT%{_bindir}/ncurses*5-config
 rm -f $RPM_BUILD_ROOT%{_libdir}/terminfo
 rm -f $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*_g.pc
 
-bzip2 NEWS
+xz  NEWS
 
 %ldconfig_scriptlets 
 
@@ -193,7 +187,7 @@ bzip2 NEWS
 %{_includedir}/*.h
 
 %files help
-%doc NEWS.bz2 README TO-DO
+%doc NEWS.xz README TO-DO
 %doc doc/html/hackguide.html
 %doc doc/html/ncurses-intro.html
 %doc misc/ncurses.supp
@@ -205,6 +199,9 @@ bzip2 NEWS
 
 
 %changelog
+* Fri Jan 10 2020 openEuler Buildteam <buildteam@openeuler.org> - 6.1-13
+- update to 20191102
+
 * Sat Dec 21 2019 openEuler Buildteam <buildteam@openeuler.org> - 6.1-12
 - Type:cves
 - ID:CVE-2019-17594  CVE-2019-17595
