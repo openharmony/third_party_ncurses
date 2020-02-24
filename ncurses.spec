@@ -1,7 +1,7 @@
 %global revision 20191109
 Name:          ncurses
 Version:       6.1
-Release:       13
+Release:       14
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -14,11 +14,10 @@ Patch12:       ncurses-kbs.patch
 
 BuildRequires: gcc gcc-c++ gpm-devel pkgconfig
 
+Requires:      %{name}-base = %{version}-%{release}
+Requires:      %{name}-libs = %{version}-%{release}
+
 Obsoletes:     rxvt-unicode-terminfo < 9.22-18
-Provides:      %{name}-base = %{version}-%{release}
-Obsoletes:     %{name}-base < %{version}-%{release}
-Provides:      %{name}-libs = %{version}-%{release}
-Obsoletes:     %{name}-libs < %{version}-%{release}
 Provides:      %{name}-compat-libs = %{version}-%{release}
 Provides:      %{name}-compat-libs%{?_isa} = %{version}-%{release}
 Obsoletes:     %{name}-compat-libs < %{version}-%{release}
@@ -34,26 +33,40 @@ format, supports pads and color and multiple highlights and forms
 characters and function-key mapping, and has all the other SVr4-curses 
 enhancements over BSD curses. SVr4 curses became the basis of X/Open Curses.
 
-%package devel
+%package       base
+Summary:       Descriptions of common terminals
+BuildArch:     noarch
+
+%description   base
+This package contains descriptions of common terminals.
+
+%package       libs
+Summary:       Libraries for %{name}
+Requires:      %{name}-base = %{version}-%{release}
+
+%description   libs
+Libraries for %{name}.
+
+%package       devel
 Summary:       Development files for the ncurses library
-Requires:      %{name} = %{version}-%{release}
+Requires:      %{name}-libs = %{version}-%{release}
+Requires:      %{name}-c++-libs = %{version}-%{release}
 Requires:      pkgconfig
 Provides:      %{name}-static = %{version}-%{release}
-Obsoletes:     %{name}-static = %{version}-%{release}
+Obsoletes:     %{name}-static < %{version}-%{release}
 
-%description devel
+%description   devel
 The header files and libraries for developing applications that use
 the ncurses terminal handling library.a, including static libraries 
 of the ncurses library.
 
-%package help
+%package       help
 Summary: Ncurse help document
 Requires: %{name} = %{version}-%{release}
 
-%description help
+%description   help
 This package contains development documentation, manuals 
 for interface function, and related documents.
-
 
 %prep
 %autosetup -n %{name}-%{version}-%{revision} -p1
@@ -161,21 +174,28 @@ rm -f $RPM_BUILD_ROOT%{_bindir}/ncurses*5-config
 rm -f $RPM_BUILD_ROOT%{_libdir}/terminfo
 rm -f $RPM_BUILD_ROOT%{_libdir}/pkgconfig/*_g.pc
 
-xz  NEWS
+xz NEWS
 
 %ldconfig_scriptlets 
+%ldconfig_scriptlets libs
 
-%files
+%files -f terms.term
 %doc ANNOUNCE AUTHORS
 %doc c++/README*
 %{!?_licensedir:%global license %%doc}
 %license COPYING
 %{_bindir}/[cirt]*
 %{_libdir}/lib*.so.5*
+%{_libdir}/libncurses++*.so.6*
+
+%files base -f terms.base
 %dir %{_sysconfdir}/terminfo
 %{_datadir}/tabset
-%{_datadir}/terminfo/*
+%dir %{_datadir}/terminfo
+
+%files libs
 %{_libdir}/lib*.so.6*
+%exclude %{_libdir}/libncurses++*.so.6*
 
 %files devel
 %{_bindir}/ncurses*-config
@@ -199,6 +219,12 @@ xz  NEWS
 
 
 %changelog
+* Mon Feb 17 2020 hexiujun <hexiujun1@huawei.com> - 6.1-14
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:unpack libs subpackage
+
 * Fri Jan 10 2020 openEuler Buildteam <buildteam@openeuler.org> - 6.1-13
 - update to 20191102
 
