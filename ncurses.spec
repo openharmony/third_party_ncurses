@@ -54,6 +54,9 @@ Requires:      %{name}-c++-libs = %{version}-%{release}
 Requires:      pkgconfig
 Provides:      %{name}-static = %{version}-%{release}
 Obsoletes:     %{name}-static < %{version}-%{release}
+Provides:      libtermcap-devel = 2.0.8-48
+Obsoletes:     libtermcap-devel < 2.0.8-48
+
 
 %description   devel
 The header files and libraries for developing applications that use
