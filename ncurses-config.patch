@@ -1,7 +1,7 @@
-diff -up ncurses-6.1-20191109/misc/gen-pkgconfig.in.config ncurses-6.1-20191109/misc/gen-pkgconfig.in
---- ncurses-6.1-20191109/misc/gen-pkgconfig.in.config	2019-10-13 00:27:10.000000000 +0200
-+++ ncurses-6.1-20191109/misc/gen-pkgconfig.in	2019-11-12 09:52:09.693017663 +0100
-@@ -78,7 +78,7 @@ if [ "$includedir" != "/usr/include" ];
+diff -Nur a/misc/gen-pkgconfig.in b/misc/gen-pkgconfig.in
+--- a/misc/gen-pkgconfig.in	2020-03-08 09:57:33.000000000 +0800
++++ b/misc/gen-pkgconfig.in	2020-04-14 14:12:37.824000000 +0800
+@@ -83,7 +83,7 @@
  fi
  
  lib_flags=
@@ -10,10 +10,10 @@ diff -up ncurses-6.1-20191109/misc/gen-pkgconfig.in.config ncurses-6.1-20191109/
  do
  	case $opt in
  	-l*) # LIBS is handled specially below
-diff -up ncurses-6.1-20191109/misc/ncurses-config.in.config ncurses-6.1-20191109/misc/ncurses-config.in
---- ncurses-6.1-20191109/misc/ncurses-config.in.config	2019-10-12 23:25:17.000000000 +0200
-+++ ncurses-6.1-20191109/misc/ncurses-config.in	2019-11-12 09:54:42.069324995 +0100
-@@ -40,7 +40,6 @@ exec_prefix="@exec_prefix@"
+diff -Nur a/misc/ncurses-config.in b/misc/ncurses-config.in
+--- a/misc/ncurses-config.in	2020-02-03 07:34:34.000000000 +0800
++++ b/misc/ncurses-config.in	2020-04-14 14:15:53.844000000 +0800
+@@ -41,7 +41,6 @@
  
  bindir="@bindir@"
  includedir="@includedir@"
@@ -21,7 +21,7 @@ diff -up ncurses-6.1-20191109/misc/ncurses-config.in.config ncurses-6.1-20191109
  datarootdir="@datarootdir@"
  datadir="@datadir@"
  mandir="@mandir@"
-@@ -100,7 +99,7 @@ fi
+@@ -101,7 +100,7 @@
  # There is no portable way to find the list of standard library directories. 
  # Require a POSIX shell anyway, to keep this simple.
  lib_flags=
@@ -29,8 +29,8 @@ diff -up ncurses-6.1-20191109/misc/ncurses-config.in.config ncurses-6.1-20191109
 +for opt in $LIBS
  do
  	case $opt in
- 	-Wl,-z,*) # ignore flags used to manipulate shared image
-@@ -109,9 +108,6 @@ do
+ 	-specs*) # ignore linker specs-files which were used to build library
+@@ -113,9 +112,6 @@
  	-L*)
  		[ -d ${opt##-L} ] || continue
  		case ${opt##-L} in
@@ -40,7 +40,7 @@ diff -up ncurses-6.1-20191109/misc/ncurses-config.in.config ncurses-6.1-20191109
  		*)
  			found=no
  			for check in $lib_flags
-@@ -231,7 +227,6 @@ ENDECHO
+@@ -235,7 +231,6 @@
  		echo $INCS
  		;;
  	--libdir)
