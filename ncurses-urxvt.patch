@@ -1,7 +1,8 @@
-diff -Nur a/misc/terminfo.src b/misc/terminfo.src
---- a/misc/terminfo.src	2020-02-23 07:05:24.000000000 +0800
-+++ b/misc/terminfo.src	2020-04-14 14:38:19.116000000 +0800
-@@ -6152,6 +6152,175 @@
+diff --git a/misc/terminfo.src b/misc/terminfo.src
+index 70047be..c4569b9 100644
+--- a/misc/terminfo.src
++++ b/misc/terminfo.src
+@@ -6145,6 +6145,175 @@ rxvt-cygwin-native|rxvt terminal emulator (native MS Window System port) on cygw
  rxvt-16color|rxvt with 16 colors like aixterm,
  	ncv#32, use=ibm+16color, use=rxvt,
  

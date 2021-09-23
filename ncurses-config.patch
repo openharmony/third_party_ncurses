@@ -1,7 +1,8 @@
-diff -Nur a/misc/gen-pkgconfig.in b/misc/gen-pkgconfig.in
---- a/misc/gen-pkgconfig.in	2020-03-08 09:57:33.000000000 +0800
-+++ b/misc/gen-pkgconfig.in	2020-04-14 14:12:37.824000000 +0800
-@@ -83,7 +83,7 @@
+diff --git a/misc/gen-pkgconfig.in b/misc/gen-pkgconfig.in
+index 8f00b82..009d215 100644
+--- a/misc/gen-pkgconfig.in
++++ b/misc/gen-pkgconfig.in
+@@ -80,7 +80,7 @@ if [ "$includedir" != "/usr/include" ]; then
  fi
  
  lib_flags=
@@ -10,10 +11,11 @@ diff -Nur a/misc/gen-pkgconfig.in b/misc/gen-pkgconfig.in
  do
  	case $opt in
  	-l*) # LIBS is handled specially below
-diff -Nur a/misc/ncurses-config.in b/misc/ncurses-config.in
---- a/misc/ncurses-config.in	2020-02-03 07:34:34.000000000 +0800
-+++ b/misc/ncurses-config.in	2020-04-14 14:15:53.844000000 +0800
-@@ -41,7 +41,6 @@
+diff --git a/misc/ncurses-config.in b/misc/ncurses-config.in
+index 7f8ba69..e483af5 100644
+--- a/misc/ncurses-config.in
++++ b/misc/ncurses-config.in
+@@ -41,7 +41,6 @@ exec_prefix="@exec_prefix@"
  
  bindir="@bindir@"
  includedir="@includedir@"
@@ -21,7 +23,7 @@ diff -Nur a/misc/ncurses-config.in b/misc/ncurses-config.in
  datarootdir="@datarootdir@"
  datadir="@datadir@"
  mandir="@mandir@"
-@@ -101,7 +100,7 @@
+@@ -101,7 +100,7 @@ fi
  # There is no portable way to find the list of standard library directories. 
  # Require a POSIX shell anyway, to keep this simple.
  lib_flags=
@@ -30,7 +32,7 @@ diff -Nur a/misc/ncurses-config.in b/misc/ncurses-config.in
  do
  	case $opt in
  	-specs*) # ignore linker specs-files which were used to build library
-@@ -113,9 +112,6 @@
+@@ -113,9 +112,6 @@ do
  	-L*)
  		[ -d ${opt##-L} ] || continue
  		case ${opt##-L} in
@@ -40,7 +42,7 @@ diff -Nur a/misc/ncurses-config.in b/misc/ncurses-config.in
  		*)
  			found=no
  			for check in $lib_flags
-@@ -235,7 +231,6 @@
+@@ -235,7 +231,6 @@ ENDECHO
  		echo $INCS
  		;;
  	--libdir)

@@ -1,11 +1,10 @@
-%global revision 20200411
 Name:          ncurses
 Version:       6.2
-Release:       1
+Release:       2
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
-Source0:       https://invisible-mirror.net/archives/ncurses/current/ncurses.tar.gz
+Source0:       https://invisible-mirror.net/archives/ncurses/ncurses-6.2.tar.gz
 
 Patch8:        ncurses-config.patch
 Patch9:        ncurses-libs.patch
@@ -72,7 +71,7 @@ This package contains development documentation, manuals
 for interface function, and related documents.
 
 %prep
-%autosetup -n %{name}-%{version}-%{revision} -p1
+%autosetup -n %{name}-%{version} -p1
 
 for f in ANNOUNCE; do
     iconv -f iso8859-1 -t utf8 -o ${f}{_,} &&
@@ -221,6 +220,12 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+* Thu Sep 23 2021 zhuyan <zhuyan34@huawei.com> - 6.2-2
+- Type:bugfix
+- Id:NA
+- SUG:NA
+- DESC:correct the source of ncurses
+
 * Thu Apr 16 2020 huzunhao <huzunhao2@huawei.com> - 6.2-1
 - Type:bugfix
 - Id:NA
