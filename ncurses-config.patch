@@ -1,18 +1,18 @@
 diff --git a/misc/gen-pkgconfig.in b/misc/gen-pkgconfig.in
-index 8f00b82..009d215 100644
+index a45dd54..8527305 100644
 --- a/misc/gen-pkgconfig.in
 +++ b/misc/gen-pkgconfig.in
-@@ -80,7 +80,7 @@ if [ "$includedir" != "/usr/include" ]; then
+@@ -83,7 +83,7 @@ if [ "$includedir" != "/usr/include" ]; then
  fi
  
  lib_flags=
--for opt in -L$libdir @LDFLAGS@ @EXTRA_LDFLAGS@ @LIBS@
+-for opt in -L$libdir @EXTRA_PKG_LDFLAGS@ @LIBS@
 +for opt in -L$libdir @LIBS@
  do
  	case $opt in
  	-l*) # LIBS is handled specially below
 diff --git a/misc/ncurses-config.in b/misc/ncurses-config.in
-index 7f8ba69..e483af5 100644
+index 7b02ac2..b64379f 100644
 --- a/misc/ncurses-config.in
 +++ b/misc/ncurses-config.in
 @@ -41,7 +41,6 @@ exec_prefix="@exec_prefix@"
@@ -24,25 +24,31 @@ index 7f8ba69..e483af5 100644
  datadir="@datadir@"
  mandir="@mandir@"
 @@ -101,7 +100,7 @@ fi
- # There is no portable way to find the list of standard library directories. 
+ # There is no portable way to find the list of standard library directories.
  # Require a POSIX shell anyway, to keep this simple.
  lib_flags=
--for opt in -L$libdir @LDFLAGS@ @EXTRA_LDFLAGS@ $LIBS
+-for opt in -L$libdir @EXTRA_PKG_LDFLAGS@ $LIBS
 +for opt in $LIBS
  do
  	case $opt in
  	-specs*) # ignore linker specs-files which were used to build library
-@@ -113,9 +112,6 @@ do
- 	-L*)
- 		[ -d ${opt##-L} ] || continue
- 		case ${opt##-L} in
+@@ -117,13 +116,13 @@ do
+ 		lib_check=`echo "x$opt" | sed -e 's/^.-L//'`
+ 		[ -d "$lib_check" ] || continue
+ 		case "$lib_check" in
 -		@LD_SEARCHPATH@) # skip standard libdir
--			continue
--			;;
- 		*)
- 			found=no
- 			for check in $lib_flags
-@@ -235,7 +231,6 @@ ENDECHO
++		////) # skip standard libdir (disabled for multilib)
+ 			if [ "$lib_check" = "$libdir" ]
+ 			then
+ 				lib_first=yes
+ 				IFS_save="$IFS"
+ 				IFS='|'
+-				LIBDIRS="@LD_SEARCHPATH@"
++				LIBDIRS=""
+ 				for lib_check in $LIBDIRS
+ 				do
+ 					if [ -d "$lib_check" ]
+@@ -271,7 +270,6 @@ ENDECHO
  		echo $INCS
  		;;
  	--libdir)
@@ -50,3 +56,5 @@ index 7f8ba69..e483af5 100644
  		;;
  	--mandir)
  		echo "${mandir}"
+-- 
+2.33.0
