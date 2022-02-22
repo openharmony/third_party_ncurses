@@ -1,17 +1,17 @@
 diff --git a/c++/Makefile.in b/c++/Makefile.in
-index 9b22b6a..878098f 100644
+index 99f21da..e25b273 100644
 --- a/c++/Makefile.in
 +++ b/c++/Makefile.in
-@@ -114,7 +114,7 @@ LOCAL_LIBDIR	= @top_builddir@/lib
- 
- LINK		= @LINK_PROGS@ $(LIBTOOL_LINK) @CXXLDFLAGS@
- SHLIB_DIRS	= -L../lib
--SHLIB_LIST	= $(SHLIB_DIRS) -lform@USE_LIB_SUFFIX@ -lmenu@USE_LIB_SUFFIX@ -lpanel@USE_LIB_SUFFIX@ -lncurses@USE_LIB_SUFFIX@ @SHLIB_LIST@
-+SHLIB_LIST	= $(SHLIB_DIRS) -lform@USE_LIB_SUFFIX@ -lmenu@USE_LIB_SUFFIX@ -lpanel@USE_LIB_SUFFIX@ -lncurses@USE_LIB_SUFFIX@ #@SHLIB_LIST@
+@@ -118,7 +118,7 @@ SHLIB_LIST	= $(SHLIB_DIRS) \
+ 		-l@FORM_NAME@@USE_LIB_SUFFIX@ \
+ 		-l@MENU_NAME@@USE_LIB_SUFFIX@ \
+ 		-l@PANEL_NAME@@USE_LIB_SUFFIX@ \
+-		-lncurses@USE_LIB_SUFFIX@ @SHLIB_LIST@
++		-lncurses@USE_LIB_SUFFIX@ #@SHLIB_LIST@
  
  LIBROOT		= ncurses++
  
-@@ -149,8 +149,7 @@ LDFLAGS_SHARED	= $(TEST_LDFLAGS) $(CFLAGS_SHARED) @LD_SHARED_OPTS@
+@@ -157,8 +157,7 @@ LDFLAGS_SHARED	= $(TEST_LDFLAGS) $(CFLAGS_SHARED) @LD_SHARED_OPTS@
  LDFLAGS_DEFAULT	= $(LINK_@DFT_UPR_MODEL@) $(LDFLAGS_@DFT_UPR_MODEL@)
  
  # flags for library built by this makefile
@@ -22,35 +22,9 @@ index 9b22b6a..878098f 100644
  AUTO_SRC	= \
  		etip.h
 diff --git a/form/Makefile.in b/form/Makefile.in
-index 3e5be8d..e3688b6 100644
+index a950a3e..6feb95e 100644
 --- a/form/Makefile.in
 +++ b/form/Makefile.in
-@@ -108,7 +108,7 @@ LINK		= $(LIBTOOL_LINK)
- LDFLAGS		= @LDFLAGS@ @LD_MODEL@ @LIBS@
- 
- SHLIB_DIRS	= -L../lib
--SHLIB_LIST	= $(SHLIB_DIRS) -lncurses@USE_LIB_SUFFIX@ @SHLIB_LIST@
-+SHLIB_LIST	= $(SHLIB_DIRS) -lncurses@USE_LIB_SUFFIX@ #@SHLIB_LIST@
- 
- RPATH_LIST	= @RPATH_LIST@
- RESULTING_SYMS	= @RESULTING_SYMS@
-diff --git a/menu/Makefile.in b/menu/Makefile.in
-index 495651c..7d97437 100644
---- a/menu/Makefile.in
-+++ b/menu/Makefile.in
-@@ -108,7 +108,7 @@ LINK		= $(LIBTOOL_LINK)
- LDFLAGS		= @LDFLAGS@ @LD_MODEL@ @LIBS@
- 
- SHLIB_DIRS	= -L../lib
--SHLIB_LIST	= $(SHLIB_DIRS) -lncurses@USE_LIB_SUFFIX@ @SHLIB_LIST@
-+SHLIB_LIST	= $(SHLIB_DIRS) -lncurses@USE_LIB_SUFFIX@ #@SHLIB_LIST@
- 
- RPATH_LIST	= @RPATH_LIST@
- RESULTING_SYMS	= @RESULTING_SYMS@
-diff --git a/panel/Makefile.in b/panel/Makefile.in
-index 5f7b5b9..5958364 100644
---- a/panel/Makefile.in
-+++ b/panel/Makefile.in
 @@ -110,7 +110,7 @@ LINK		= $(LIBTOOL_LINK)
  LDFLAGS		= @LDFLAGS@ @LD_MODEL@ @LIBS@
  
@@ -60,3 +34,31 @@ index 5f7b5b9..5958364 100644
  
  RPATH_LIST	= @RPATH_LIST@
  RESULTING_SYMS	= @RESULTING_SYMS@
+diff --git a/menu/Makefile.in b/menu/Makefile.in
+index b623bf0..8c0d199 100644
+--- a/menu/Makefile.in
++++ b/menu/Makefile.in
+@@ -110,7 +110,7 @@ LINK		= $(LIBTOOL_LINK)
+ LDFLAGS		= @LDFLAGS@ @LD_MODEL@ @LIBS@
+ 
+ SHLIB_DIRS	= -L../lib
+-SHLIB_LIST	= $(SHLIB_DIRS) -lncurses@USE_LIB_SUFFIX@ @SHLIB_LIST@
++SHLIB_LIST	= $(SHLIB_DIRS) -lncurses@USE_LIB_SUFFIX@ #@SHLIB_LIST@
+ 
+ RPATH_LIST	= @RPATH_LIST@
+ RESULTING_SYMS	= @RESULTING_SYMS@
+diff --git a/panel/Makefile.in b/panel/Makefile.in
+index 380f80c..dfe116e 100644
+--- a/panel/Makefile.in
++++ b/panel/Makefile.in
+@@ -112,7 +112,7 @@ LINK		= $(LIBTOOL_LINK)
+ LDFLAGS		= @LDFLAGS@ @LD_MODEL@ @LIBS@
+ 
+ SHLIB_DIRS	= -L../lib
+-SHLIB_LIST	= $(SHLIB_DIRS) -lncurses@USE_LIB_SUFFIX@ @SHLIB_LIST@
++SHLIB_LIST	= $(SHLIB_DIRS) -lncurses@USE_LIB_SUFFIX@ #@SHLIB_LIST@
+ 
+ RPATH_LIST	= @RPATH_LIST@
+ RESULTING_SYMS	= @RESULTING_SYMS@
+-- 
+2.33.0

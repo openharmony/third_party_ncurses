@@ -1,17 +1,15 @@
 Name:          ncurses
-Version:       6.2
-Release:       3
+Version:       6.3
+Release:       1
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
-Source0:       https://invisible-mirror.net/archives/ncurses/ncurses-6.2.tar.gz
+Source0:       https://invisible-mirror.net/archives/ncurses/ncurses-%{version}.tar.gz
 
 Patch8:        ncurses-config.patch
 Patch9:        ncurses-libs.patch
 Patch11:       ncurses-urxvt.patch
 Patch12:       ncurses-kbs.patch
-
-Patch6000:     backport-CVE-2021-39537-add-check-for-end-of-string-in-cvtchar-to-handle-a-malformed.patch
 
 BuildRequires: gcc gcc-c++ gpm-devel pkgconfig
 
@@ -222,6 +220,12 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+* Sat Feb 19 2022 xinghe <xinghe2@h-partners.com> - 6.3-1
+- Type:bugfix
+- CVE:NA
+- SUG:NA
+- DESC:update to 6.3
+
 * Tue Oct 12 2021 xihaochen<xihaochen@huawei.com> - 6.2-3
 - Type:CVE
 - CVE:CVE-2021-39537
