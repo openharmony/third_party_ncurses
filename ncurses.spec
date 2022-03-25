@@ -1,6 +1,6 @@
 Name:          ncurses
 Version:       6.3
-Release:       1
+Release:       2
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -17,9 +17,6 @@ Requires:      %{name}-base = %{version}-%{release}
 Requires:      %{name}-libs = %{version}-%{release}
 
 Obsoletes:     rxvt-unicode-terminfo < 9.22-18
-Provides:      %{name}-compat-libs = %{version}-%{release}
-Provides:      %{name}-compat-libs%{?_isa} = %{version}-%{release}
-Obsoletes:     %{name}-compat-libs < %{version}-%{release}
 Provides:      %{name}-c++-libs = %{version}-%{release}
 Obsoletes:     %{name}-c++-libs < %{version}-%{release}
 Provides:      %{name}-term = %{version}-%{release}
@@ -61,6 +58,20 @@ Obsoletes:     libtermcap-devel < 2.0.8-48
 The header files and libraries for developing applications that use
 the ncurses terminal handling library.a, including static libraries 
 of the ncurses library.
+
+%package compat-libs
+Summary: Ncurses compatibility libraries
+Group: System Environment/Libraries
+Requires: %{name}-base = %{version}-%{release}
+
+%description compat-libs
+The curses library routines are a terminal-independent method of
+updating character screens with reasonable optimization.  The ncurses
+(new curses) library is a freely distributable replacement for the
+discontinued 4.4 BSD classic curses library.
+
+This package contains the ABI version 5 of the ncurses libraries for
+compatibility.
 
 %package       help
 Summary: Ncurse help document
@@ -180,6 +191,7 @@ xz NEWS
 
 %ldconfig_scriptlets 
 %ldconfig_scriptlets libs
+%ldconfig_scriptlets compat-libs
 
 %files -f terms.term
 %doc ANNOUNCE AUTHORS
@@ -187,7 +199,6 @@ xz NEWS
 %{!?_licensedir:%global license %%doc}
 %license COPYING
 %{_bindir}/[cirt]*
-%{_libdir}/lib*.so.5*
 %{_libdir}/libncurses++*.so.6*
 
 %files base -f terms.base
@@ -208,6 +219,9 @@ xz NEWS
 %{_includedir}/ncursesw/*.h
 %{_includedir}/*.h
 
+%files compat-libs
+%{_libdir}/lib*.so.5*
+
 %files help
 %doc NEWS.xz README TO-DO
 %doc doc/html/hackguide.html
@@ -220,6 +234,12 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+* Fri Mar 25 2022 xihaochen <xihaochen@h-partners.com> - 6.3-2
+- Type:requirements
+- CVE:NA
+- SUG:NA
+- DESC:split compat-libs from ncurses
+
 * Sat Feb 19 2022 xinghe <xinghe2@h-partners.com> - 6.3-1
 - Type:bugfix
 - CVE:NA
