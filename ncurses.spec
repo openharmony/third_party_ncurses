@@ -1,6 +1,6 @@
 Name:          ncurses
 Version:       6.3
-Release:       2
+Release:       3
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -10,6 +10,7 @@ Patch8:        ncurses-config.patch
 Patch9:        ncurses-libs.patch
 Patch11:       ncurses-urxvt.patch
 Patch12:       ncurses-kbs.patch
+Patch13:       backport-CVE-2022-29458.patch
 
 BuildRequires: gcc gcc-c++ gpm-devel pkgconfig
 
@@ -234,6 +235,12 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+* Thu Apr 28 2022 gaihuiying <eaglegai@163.com> - 6.3-3
+- Type:CVE
+- CVE:CVE-2022-29458
+- SUG:NA
+- DESC:fix CVE-2022-29458
+
 * Fri Mar 25 2022 xihaochen <xihaochen@h-partners.com> - 6.3-2
 - Type:requirements
 - CVE:NA
