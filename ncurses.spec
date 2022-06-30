@@ -1,6 +1,6 @@
 Name:          ncurses
 Version:       6.3
-Release:       3
+Release:       4
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -235,6 +235,12 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+* Thu Jun 16 2022 yanglu <yanglu72@h-partners.com> - 6.3-4
+- Type:bugfix
+- CVE:NA
+- SUG:NA
+- DESC:delete marcos in changelog
+
 * Thu Apr 28 2022 gaihuiying <eaglegai@163.com> - 6.3-3
 - Type:CVE
 - CVE:CVE-2022-29458
@@ -296,6 +302,7 @@ xz NEWS
 - Type:enhancement
 - ID:NA
 - SUG:NA
-- DESC:add ncurses-compat-libs%{?isa}
+- DESC:add ncurses-compat-libs
+
 * Wed Sep 18 2019 openEuler Buildteam <buildteam@openeuler.org> - 6.1-9
 - Package init
