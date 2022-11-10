@@ -1,6 +1,6 @@
 Name:          ncurses
 Version:       6.3
-Release:       4
+Release:       5
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -49,8 +49,6 @@ Summary:       Development files for the ncurses library
 Requires:      %{name}-libs = %{version}-%{release}
 Requires:      %{name}-c++-libs = %{version}-%{release}
 Requires:      pkgconfig
-Provides:      %{name}-static = %{version}-%{release}
-Obsoletes:     %{name}-static < %{version}-%{release}
 Provides:      libtermcap-devel = 2.0.8-48
 Obsoletes:     libtermcap-devel < 2.0.8-48
 
@@ -73,6 +71,13 @@ discontinued 4.4 BSD classic curses library.
 
 This package contains the ABI version 5 of the ncurses libraries for
 compatibility.
+
+%package static
+Summary: Static libraries for the ncurses library
+Requires: %{name}-devel = %{version}-%{release}
+ 
+%description static
+The ncurses-static package includes static libraries of the ncurses library.
 
 %package       help
 Summary: Ncurse help document
@@ -214,7 +219,6 @@ xz NEWS
 %files devel
 %{_bindir}/ncurses*-config
 %{_libdir}/lib*.so
-%{_libdir}/lib*.a
 %{_libdir}/pkgconfig/*.pc
 %{_includedir}/ncurses/*.h
 %{_includedir}/ncursesw/*.h
@@ -222,6 +226,9 @@ xz NEWS
 
 %files compat-libs
 %{_libdir}/lib*.so.5*
+
+%files static
+%{_libdir}/lib*.a
 
 %files help
 %doc NEWS.xz README TO-DO
@@ -235,6 +242,12 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+* Thu Nov 10 2022 yanglu <yanglu72@h-partners.com> - 6.3-5
+- Type:bugfix
+- CVE:NA
+- SUG:NA
+- DESC:split static from ncurses-devel
+
 * Thu Jun 16 2022 yanglu <yanglu72@h-partners.com> - 6.3-4
 - Type:bugfix
 - CVE:NA
