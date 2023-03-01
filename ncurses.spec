@@ -1,6 +1,6 @@
 Name:          ncurses
 Version:       6.3
-Release:       5
+Release:       6
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -103,7 +103,11 @@ common_options="--enable-colorfgbg --enable-hard-tabs --enable-overwrite \
     --with-shared \
     --with-terminfo-dirs=%{_sysconfdir}/terminfo:%{_datadir}/terminfo \
     --with-termlib=tinfo --with-ticlib=tic --with-xterm-kbs=DEL \
-    --without-ada"
+    --without-ada \
+    %if 0%{?build_cross} == 1
+    --with-build-cc=/usr/bin/gcc \
+    %endif
+    "
 abi5_options="--with-chtype=long"
 
 for abi in 5 6; do
@@ -242,6 +246,12 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+* Tue Feb 28 2023 zhujunhao <zhujunhao11@huawei.com> - 6.3-6
+- Type:bugfix
+- CVE:NA
+- SUG:NA
+- DESC:add options for cross build
+
 * Thu Nov 10 2022 yanglu <yanglu72@h-partners.com> - 6.3-5
 - Type:bugfix
 - CVE:NA
