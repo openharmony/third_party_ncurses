@@ -1,0 +1,383 @@
+diff --git a/llvm-build/build.py b/llvm-build/build.py
+index 1d9a012b113e6b43f84de2d552de436c3d57f494..02447daa7903d8cf6e4bfff8374a0f3117810b1e 100755
+--- a/llvm-build/build.py
++++ b/llvm-build/build.py
+@@ -437,12 +437,23 @@ class LlvmCore(BuildUtils):
+     def llvm_compile_darwin_defines(self, llvm_defines):
+         if self.host_is_darwin():
+             llvm_defines['LIBUNWIND_ENABLE_SHARED'] = 'OFF'
+-            llvm_defines['LLDB_ENABLE_LIBEDIT'] = 'OFF'
++            llvm_defines['LLDB_ENABLE_LIBEDIT'] = 'ON'
+             llvm_defines['LLDB_NO_DEBUGSERVER'] = 'ON'
+             llvm_defines['LLDB_ENABLE_PYTHON'] = 'OFF'
+             llvm_defines['COMPILER_RT_BUILD_LIBFUZZER'] = 'OFF'
+             llvm_defines['LLVM_BUILD_EXTERNAL_COMPILER_RT'] = 'ON'
+             llvm_defines['LLVM_ENABLE_ZSTD'] = 'OFF'
++            llvm_defines['LLDB_ENABLE_CURSES'] = 'ON'
++            llvm_defines['LibEdit_INCLUDE_DIRS'] = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'libedit', 'include')
++            llvm_defines['LibEdit_LIBRARIES'] = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'libedit', 'lib', 'libedit.0.dylib')
++            llvm_defines['CURSES_INCLUDE_DIRS'] = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses', 'include')
++            libncurse = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses', 'lib', 'libncurses.6.dylib')
++            libpanel = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses', 'lib', 'libpanel.6.dylib')
++            libform = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses', 'lib', 'libform.6.dylib')
++            libraries_lib = [libncurse, libpanel, libform]
++            ncurses_libs = ';'.join(str(lib) for lib in libraries_lib)
++            llvm_defines['CURSES_LIBRARIES'] = ncurses_libs
++            llvm_defines['PANEL_LIBRARIES'] = ncurses_libs
+ 
+     def llvm_compile_linux_defines(self,
+                                    llvm_defines,
+@@ -466,6 +477,19 @@ class LlvmCore(BuildUtils):
+             llvm_defines['LIBUNWIND_USE_COMPILER_RT'] = 'ON'
+             llvm_defines['LLVM_BINUTILS_INCDIR'] = '/usr/include'
+             llvm_defines['LLDB_ENABLE_PYTHON'] = 'OFF'
++            llvm_defines['LLDB_ENABLE_LIBEDIT'] = 'ON'
++            llvm_defines['LLDB_ENABLE_CURSES'] = 'ON'
++            llvm_defines['LibEdit_INCLUDE_DIRS'] = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'libedit', 'include')
++            llvm_defines['LibEdit_LIBRARIES'] = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'libedit', 'lib', 'libedit.so.0.0.68')
++            libncurse = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses', 'lib', 'libncurses.so.6.3')
++            libpanel = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses', 'lib', 'libpanel.so.6.3')
++            libform = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses', 'lib', 'libform.so.6.3')
++            libraries_lib = [ libncurse, libpanel, libform ]
++            ncurses_libs = ';'.join(str(lib) for lib in libraries_lib)
++            llvm_defines['CURSES_INCLUDE_DIRS'] = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses', 'include')
++            llvm_defines['CURSES_LIBRARIES'] = ncurses_libs
++            llvm_defines['PANEL_LIBRARIES'] = ncurses_libs
++
+ 
+             if not build_instrumented and not no_lto and not debug_build:
+                 llvm_defines['LLVM_ENABLE_LTO'] = 'Thin'
+@@ -484,7 +508,6 @@ class LlvmCore(BuildUtils):
+         llvm_defines['LIBOMP_ENABLE_SHARED'] = 'FALSE'
+         llvm_defines['OPENMP_TEST_FLAGS'] = '-Wl,-ldl'
+         llvm_defines['CLANG_BUILD_EXAMPLES'] = 'OFF'
+-        llvm_defines['LLDB_ENABLE_LIBEDIT'] = 'OFF'
+         llvm_defines['COMPILER_RT_BUILD_SANITIZERS'] = 'OFF'
+         llvm_defines['COMPILER_RT_BUILD_MEMPROF'] = 'OFF'
+         llvm_defines['CMAKE_ASM_FLAGS'] = cflags
+@@ -1261,6 +1284,53 @@ class LlvmLibs(BuildUtils):
+                           env=dict(self.build_config.ORIG_ENV),
+                           install=True)
+ 
++    def build_ncurses(self, llvm_make, llvm_install):
++        self.logger().info('Building ncurses.')
++
++        libncurses_src_dir = os.path.abspath(os.path.join(self.build_config.REPOROOT_DIR, 'third_party', 'ncurses'))
++        libncurses_build_path = self.merge_out_path('ncurses')
++        libncurses_install_path = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses')
++
++        self.check_rm_tree(libncurses_build_path)
++        self.rm_cmake_cache(libncurses_build_path)
++        self.check_rm_tree(libncurses_install_path)
++        self.rm_cmake_cache(libncurses_install_path)
++
++        cur_dir = os.getcwd()
++        os.chdir(self.build_config.LLVM_BUILD_DIR)
++        clang_version = self.build_config.CLANG_VERSION
++        args = ['./build_ncurses.sh', libncurses_src_dir, libncurses_build_path, libncurses_install_path, clang_version]
++        self.check_call(args)
++        os.chdir(cur_dir)
++
++        self.llvm_package.copy_ncurses_to_llvm(llvm_make)
++        self.llvm_package.copy_ncurses_to_llvm(llvm_install)
++
++    def build_libedit(self, llvm_make, llvm_install):
++        self.logger().info('Building libedit')
++
++        libedit_src_dir = os.path.abspath(os.path.join(self.build_config.REPOROOT_DIR, 'third_party', 'libedit'))
++        libedit_build_path = self.merge_out_path('libedit')
++        libedit_install_path = os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'libedit')
++
++        self.check_rm_tree(libedit_build_path)
++        self.rm_cmake_cache(libedit_build_path)
++        self.check_rm_tree(libedit_install_path)
++        self.rm_cmake_cache(libedit_install_path)
++
++        libncurses_path = os.path.abspath(
++            os.path.join(self.build_config.REPOROOT_DIR, 'prebuilts', 'ncurses'))
++
++        cur_dir = os.getcwd()
++        os.chdir(self.build_config.LLVM_BUILD_DIR)
++        clang_version = self.build_config.CLANG_VERSION
++        args = ['./build_libedit.sh', libedit_src_dir, libedit_build_path , libedit_install_path, libncurses_path, clang_version]
++        self.check_call(args)
++        os.chdir(cur_dir)
++
++        self.llvm_package.copy_libedit_to_llvm(llvm_make)
++        self.llvm_package.copy_libedit_to_llvm(llvm_install)
++
+ 
+ class LlvmPackage(BuildUtils):
+ 
+@@ -1534,6 +1604,103 @@ class LlvmPackage(BuildUtils):
+             args = ['tar', '-chjC', self.build_config.OUT_PATH, '-f', package_ndk_path, 'sysroot']
+             self.check_call(args)
+ 
++    def get_dependency_list(self, install_dir, lib):
++        dependency_list = []
++        cmd = "otool -L {}".format(lib)
++        res = subprocess.run(cmd, stdout=subprocess.PIPE, shell=True).stdout.decode()
++        # Remove the library itself
++        res = res.split('\n')[1:]
++        for line in res:
++            line = line.strip()
++            if line.startswith("/"):
++                # Process lines similar to the following format:
++                # /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1311.100.3)
++                lib_path = line.split()[0]
++                dependency_list.append(lib_path)
++        return dependency_list
++
++    def update_lib_id_link(self, install_dir, lib):
++        self.logger().info('update_lib_id_link lib is %s', lib)
++        if not self.host_is_darwin():
++            return;
++        else:
++            dependency_list = self.get_dependency_list(install_dir, lib)
++
++            # Update LC_ID_DYLIB
++            dylib_name = os.path.basename(lib)
++            subprocess.check_call(["install_name_tool", "-id", "@rpath/%s" % dylib_name, lib])
++
++            library_list = ["libedit", "libncurses", "libpanel", "libform"]
++
++            # Update LC_LOAD_DYLIB
++            for dependency in dependency_list:
++                print('dependency is ', dependency)
++                lib_name =  os.path.basename(dependency)
++                for library in library_list:
++                    index_link = dependency.rfind(library)
++                    if index_link != -1:
++                        subprocess.check_call(["install_name_tool", "-change", dependency, "@loader_path/../lib/%s" % lib_name, lib])
++
++    def copy_ncurses_to_llvm(self, install_dir):
++        self.logger().info('copy_ncurses_to_llvm install_dir is %s', install_dir)
++
++        if self.host_is_darwin():
++            shlib_ext = '.6.dylib'
++        if self.host_is_linux():
++            shlib_ext = '.so.6'
++
++        lib_dst_path = os.path.join(install_dir, 'lib')
++
++        lib_src_path = self.merge_out_path('../prebuilts', 'ncurses', 'lib')
++        libncurses_src = os.path.join(lib_src_path, 'libncurses%s' % shlib_ext)
++        libpanel_src = os.path.join(lib_src_path, 'libpanel%s' % shlib_ext)
++        libform_src = os.path.join(lib_src_path, 'libform%s' % shlib_ext)
++
++        libncurses_dst = os.path.join(lib_dst_path, 'libncurses%s' % shlib_ext)
++        libpanel_dst = os.path.join(lib_dst_path, 'libpanel%s' % shlib_ext)
++        libform_dst =os.path.join(lib_dst_path, 'libform%s' % shlib_ext)
++
++        if not os.path.exists(lib_dst_path):
++            os.makedirs(lib_dst_path)
++
++        for lib_file in (libncurses_src, libpanel_src, libform_src):
++            self.update_lib_id_link(lib_src_path, lib_file)
++
++        # Clear historical libraries
++        for lib in (libncurses_dst, libpanel_dst, libform_dst):
++            if os.path.exists(lib):
++                os.remove(lib)
++
++        for lib_src in (libncurses_src, libpanel_src, libform_src):
++            self.check_copy_file(lib_src, lib_dst_path)
++
++    def copy_libedit_to_llvm(self, install_dir):
++        self.logger().info('LlvmPackage copy_libedit_to_llvm install_dir is %s', install_dir)
++
++        if self.host_is_darwin():
++            shlib_ext = '.0.dylib'
++        if self.host_is_linux():
++            shlib_ext = '.so.0'
++
++        libedit_lib_path = self.merge_out_path('../prebuilts', 'libedit', 'lib')
++        libedit_src = os.path.join(libedit_lib_path, 'libedit%s' % shlib_ext)
++
++        lib_dst_path = os.path.join(install_dir, 'lib')
++
++        libedit_dst = os.path.join(lib_dst_path, 'libedit%s' % shlib_ext)
++
++        if not os.path.exists(lib_dst_path):
++            os.makedirs(lib_dst_path)
++
++        self.update_lib_id_link(libedit_lib_path, libedit_src)
++
++        # Clear historical library
++        print('libedit_dst is', libedit_dst)
++        if os.path.exists(libedit_dst):
++            os.remove(libedit_dst)
++
++        self.check_copy_file(libedit_src, lib_dst_path)
++
+     # Packing Operation.
+ 
+     def package_operation(self, build_dir, host):
+@@ -1623,6 +1790,7 @@ def main():
+                    ('windows' not in args.no_build)
+ 
+     llvm_install = build_utils.merge_out_path('llvm-install')
++    llvm_make = build_utils.merge_out_path('llvm_make')
+     windows64_install = build_utils.merge_out_path('windows-x86_64-install')
+ 
+     configs = []
+@@ -1642,6 +1810,8 @@ def main():
+     if not build_config.no_build_x86_64:
+         configs.append(('x86_64', build_utils.open_ohos_triple('x86_64')))
+ 
++    llvm_libs.build_ncurses(llvm_make, llvm_install)
++    llvm_libs.build_libedit(llvm_make, llvm_install)
+ 
+     if build_config.do_build and need_host:
+         llvm_core.llvm_compile(
+diff --git a/llvm-build/build_libedit.sh b/llvm-build/build_libedit.sh
+new file mode 100755
+index 0000000000000000000000000000000000000000..6026cd8e919eac8b9d75c9ec09231a5fb5eb6908
+--- /dev/null
++++ b/llvm-build/build_libedit.sh
+@@ -0,0 +1,66 @@
++#!/bin/bash
++set -e
++
++# This script is used to create libedit
++
++SCRIPT_PATH="${PWD}"
++OUT="${PWD}/../../../out"
++LIBEDIT_SRC_DIR=$1
++LIBEDIT_BUILD_PATH=$2
++LIBEDIT_INSTALL_PATH=$3
++NCURSES_PATH=$4
++CLANG_VERSION=$5
++PREBUILT_PATH="${SCRIPT_PATH}/../../../prebuilts"
++
++case $(uname -s) in
++    Linux)
++
++        host_platform=linux
++        ;;
++    Darwin)
++        host_platform=darwin
++        ;;
++    *)
++        echo "Unsupported host platform: $(uname -s)"
++        exit 1
++esac
++
++case $(uname -m) in
++    arm64)
++
++        host_cpu=arm64
++        ;;
++    *)
++        host_cpu=x86_64
++esac
++
++export CC=${PREBUILT_PATH}/clang/ohos/${host_platform}-${host_cpu}/clang-${CLANG_VERSION}/bin/clang
++export CXX=${PREBUILT_PATH}/clang/ohos/${host_platform}-${host_cpu}/clang-${CLANG_VERSION}/bin/clang++
++
++libedit_package=${LIBEDIT_SRC_DIR}/libedit-20210910-3.1.tar.gz
++if [ -e ${libedit_package} ]; then
++    tar -xzvf ${libedit_package} --strip-components 1 -C ${LIBEDIT_SRC_DIR}
++
++    if [ ! -b ${LIBEDIT_BUILD_PATH} ]; then
++        mkdir -p ${LIBEDIT_BUILD_PATH}
++    fi
++
++    # build libedit
++    cd ${LIBEDIT_BUILD_PATH}
++    ldflags="-L${NCURSES_PATH}/lib"
++    ncuses_flags="-I${NCURSES_PATH}/include"
++    if [ "${host_platform}" = "darwin" ]; then
++        ncurses_libs="-Wl,-rpath,@loader_path/../lib:${NCURSES_PATH}/lib"
++    fi
++
++    if [ "${host_platform}" = "linux" ]; then
++        ncurses_libs="-Wl,-rpath,\$$ORIGIN/../lib:${NCURSES_PATH}/lib"
++    fi
++
++    export LDFLAGS="$LDFLAGS $ldflags $ncuses_flags $ncurses_libs"
++    ${LIBEDIT_SRC_DIR}/configure \
++        --prefix=${PREBUILT_PATH}/libedit
++    make -j$(nproc --all) install | tee build_libedit.log
++fi
++
++
+diff --git a/llvm-build/build_ncurses.sh b/llvm-build/build_ncurses.sh
+new file mode 100755
+index 0000000000000000000000000000000000000000..c212c802424e30e55773f48f06d18439b187846c
+--- /dev/null
++++ b/llvm-build/build_ncurses.sh
+@@ -0,0 +1,73 @@
++#!/bin/bash
++set -e
++
++# This script is used to create ncurses
++
++SCRIPT_PATH="${PWD}"
++OUT="${PWD}/../../../out"
++NCURSES_SRC_DIR=$1
++NCURSES_BUILD_PATH=$2
++NCURSES_install_PATH=$3
++CLANG_VERSION=$4
++PREBUILT_PATH="${SCRIPT_PATH}/../../../prebuilts"
++
++case $(uname -s) in
++    Linux)
++
++        host_platform=linux
++        ;;
++    Darwin)
++        host_platform=darwin
++        ;;
++    *)
++        echo "Unsupported host platform: $(uname -s)"
++        exit 1
++esac
++
++case $(uname -m) in
++    arm64)
++
++        host_cpu=arm64
++        ;;
++    *)
++        host_cpu=x86_64
++esac
++
++export CC=${PREBUILT_PATH}/clang/ohos/${host_platform}-${host_cpu}/clang-${CLANG_VERSION}/bin/clang
++export CXX=${PREBUILT_PATH}/clang/ohos/${host_platform}-${host_cpu}/clang-${CLANG_VERSION}/bin/clang++
++
++ncurses_package=${NCURSES_SRC_DIR}/ncurses-6.3.tar.gz
++if [ -e ${ncurses_package} ]; then
++    tar -xvzf ${ncurses_package} --strip-components 1 -C ${NCURSES_SRC_DIR}
++    cd ${NCURSES_SRC_DIR}
++    # apply patches in order
++    patch -Np1 < ncurses-urxvt.patch
++    patch -Np1 < ncurses-config.patch
++    patch -Np1 < ncurses-kbs.patch
++    patch -Np1 < ncurses-libs.patch
++    patch -Np1 < backport-CVE-2022-29458.patch
++
++    if [ ! -b ${NCURSES_BUILD_PATH} ]; then
++        mkdir -p ${NCURSES_BUILD_PATH}
++    fi
++    cd ${NCURSES_BUILD_PATH}
++    # build ncurses
++    if [ "${host_platform}" == "darwin" ]; then
++        export LDFLAGS="-Wl,-rpath,@loader_path/../lib"
++        ${NCURSES_SRC_DIR}/configure \
++            --with-shared \
++            --with-default-terminfo-dir=/usr/lib/terminfo:/lib/terminfo:/usr/share/terminfo \
++            --disable-mixed-case \
++            --prefix=${NCURSES_install_PATH}
++        make -j$(nproc --all) install | tee build_ncurses.log
++    fi
++    if [ "${host_platform}" == "linux" ]; then
++        export LDFLAGS="-Wl,-rpath,\$$ORIGIN/../lib"
++        ${NCURSES_SRC_DIR}/configure \
++            --with-shared \
++            --with-default-terminfo-dir=/usr/lib/terminfo:/lib/terminfo:/usr/share/terminfo \
++            --prefix=${NCURSES_install_PATH}
++        make -j$(nproc --all) install | tee build_ncurses.log
++    fi
++fi
++
