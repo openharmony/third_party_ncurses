@@ -1,0 +1,9 @@
+{
+    "patches": [
+        {
+            "project":"toolchain",                      
+            "patch_file":"toolchain/llvm-project/20230607diff.patch",   
+            "path":"toolchain/llvm-project"                       
+        }
+    ]
+}
