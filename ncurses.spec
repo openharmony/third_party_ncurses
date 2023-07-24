@@ -1,6 +1,6 @@
 Name:          ncurses
 Version:       6.3
-Release:       6
+Release:       7
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -11,6 +11,8 @@ Patch9:        ncurses-libs.patch
 Patch11:       ncurses-urxvt.patch
 Patch12:       ncurses-kbs.patch
 Patch13:       backport-CVE-2022-29458.patch
+Patch14:       backport-0001-CVE-2023-29491-fix-configure-root-args-option.patch
+Patch15:       backport-0002-CVE-2023-29491-env-access.patch 
 
 BuildRequires: gcc gcc-c++ gpm-devel pkgconfig
 
@@ -97,7 +99,7 @@ done
 
 %build
 common_options="--enable-colorfgbg --enable-hard-tabs --enable-overwrite \
-    --enable-pc-files --enable-xmc-glitch --disable-wattr-macros \
+    --enable-pc-files --enable-xmc-glitch --disable-wattr-macros --disable-root-environ \
     --with-cxx-shared --with-ospeed=unsigned \
     --with-pkg-config-libdir=%{_libdir}/pkgconfig \
     --with-shared \
@@ -246,6 +248,12 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+* Mon Jul 03 2023 yanglu <yanglu72@h-partners.com> - 6.3-7
+- Type:CVE
+- CVE:CVE-2023-29491
+- SUG:NA
+- DESC:fix CVE-2023-29491
+
 * Tue Feb 28 2023 zhujunhao <zhujunhao11@huawei.com> - 6.3-6
 - Type:bugfix
 - CVE:NA
