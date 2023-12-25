@@ -1,6 +1,6 @@
 Name:          ncurses
 Version:       6.3
-Release:       7
+Release:       9
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -13,6 +13,7 @@ Patch12:       ncurses-kbs.patch
 Patch13:       backport-CVE-2022-29458.patch
 Patch14:       backport-0001-CVE-2023-29491-fix-configure-root-args-option.patch
 Patch15:       backport-0002-CVE-2023-29491-env-access.patch 
+Patch18:       backport-CVE-2023-50495.patch
 
 BuildRequires: gcc gcc-c++ gpm-devel pkgconfig
 
@@ -248,6 +249,12 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+* Fri Dec 15 2023 yanglu <yanglu72@h-partners.com> - 6.3-9
+- Type:CVE
+- CVE:CVE-2023-50495
+- SUG:NA
+- DESC:fix CVE-2023-50495
+
 * Mon Jul 03 2023 yanglu <yanglu72@h-partners.com> - 6.3-7
 - Type:CVE
 - CVE:CVE-2023-29491
