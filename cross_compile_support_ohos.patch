@@ -1,0 +1,34 @@
+--- ncurses/config.sub	2021-08-15 00:20:38.000000000 +0800
++++ ncurses/config.sub	2024-03-06 16:39:06.453008203 +0800
+@@ -1748,7 +1748,7 @@
+ 	     | skyos* | haiku* | rdos* | toppers* | drops* | es* \
+ 	     | onefs* | tirtos* | phoenix* | fuchsia* | redox* | bme* \
+ 	     | midnightbsd* | amdhsa* | unleashed* | emscripten* | wasi* \
+-	     | nsk* | powerunix* | genode* | zvmoe* | qnx* | emx* | zephyr*)
++	     | nsk* | powerunix* | genode* | zvmoe* | qnx* | emx* | zephyr* | ohos*)
+ 		;;
+ 	# This one is extra strict with allowed versions
+ 	sco3.2v2 | sco3.2v[4-9]* | sco5v6*)
+@@ -1786,6 +1786,8 @@
+ 		;;
+ 	*-eabi* | *-gnueabi*)
+ 		;;
++	*-ohos*)
++		;;
+ 	-*)
+ 		# Blank kernel with real OS is always fine.
+ 		;;
+--- ncurses/configure   2024-03-15 17:43:30.098557323 +0800
++++ ncurses/configure       2024-03-15 17:39:42.282556871 +0800
+@@ -16508,6 +16508,10 @@
+        INSTALL_OPT_S=
+ fi
+
++if test "${with_strip_program+set}" = set; then
++  INSTALL_OPT_S="$INSTALL_OPT_S --strip-program=$with_strip_program"
++fi
++
+ : "${INSTALL:=install}"
+ echo "$as_me:16512: checking if install accepts -p option" >&5
+ echo $ECHO_N "checking if install accepts -p option... $ECHO_C" >&6
+
