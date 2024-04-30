@@ -15,6 +15,8 @@ Patch14:       backport-0001-CVE-2023-29491-fix-configure-root-args-option.patch
 Patch15:       backport-0002-CVE-2023-29491-env-access.patch 
 Patch18:       backport-CVE-2023-50495.patch
 Patch19:       backport-CVE-2023-45918.patch
+# OHOS_LOCAL
+Patch99:       cross_compile_support_ohos.patch
 
 BuildRequires: gcc gcc-c++ gpm-devel pkgconfig
 
@@ -250,6 +252,13 @@ xz NEWS
 %{_mandir}/man7/*
 
 %changelog
+# OHOS_LOCAL begin
+* Fri Mar 15 2024 liujia178 <liujia178@huawei.com> - 6.3-oh-0
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:cross-compilation capability for OHOS system support.
+# OHOS_LOCAL end
 * Tue Jan 30 2024 yanglu <yanglu72@h-partners.com> - 6.3-10
 - Type:CVE
 - CVE:CVE-2023-45918
