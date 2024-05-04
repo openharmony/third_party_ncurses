@@ -1,6 +1,6 @@
 Name:          ncurses
 Version:       6.3
-Release:       10
+Release:       15
 Summary:       Terminal control library
 License:       MIT
 URL:           https://invisible-island.net/ncurses/ncurses.html
@@ -12,7 +12,9 @@ Patch11:       ncurses-urxvt.patch
 Patch12:       ncurses-kbs.patch
 Patch13:       backport-CVE-2022-29458.patch
 Patch14:       backport-0001-CVE-2023-29491-fix-configure-root-args-option.patch
-Patch15:       backport-0002-CVE-2023-29491-env-access.patch 
+Patch15:       backport-0002-CVE-2023-29491-env-access.patch
+Patch16:       backport-fix-for-out-of-memory-condition.patch
+Patch17:       backport-fix-coredump-when-use-Memmove.patch
 Patch18:       backport-CVE-2023-50495.patch
 Patch19:       backport-CVE-2023-45918.patch
 # OHOS_LOCAL
@@ -259,23 +261,60 @@ xz NEWS
 - SUG:NA
 - DESC:cross-compilation capability for OHOS system support.
 # OHOS_LOCAL end
-* Tue Jan 30 2024 yanglu <yanglu72@h-partners.com> - 6.3-10
+
+* Wed Feb 28 2024 liutie <liutie4@huawei.com> - 6.3-15
+- Type:bugfix
+- ID:NA
+- SUG:NA
+- DESC:sysboost no longer needs relocation, so remove it.
+
+* Tue Jan 30 2024 yanglu <yanglu72@h-partners.com> - 6.3-14
 - Type:CVE
-- CVE:CVE-2023-45918
+- ID:CVE-2023-45918
 - SUG:NA
 - DESC:fix CVE-2023-45918
 
-* Fri Dec 15 2023 yanglu <yanglu72@h-partners.com> - 6.3-9
+* Fri Dec 15 2023 yanglu <yanglu72@h-partners.com> - 6.3-13
 - Type:CVE
-- CVE:CVE-2023-50495
+- ID:CVE-2023-50495
 - SUG:NA
 - DESC:fix CVE-2023-50495
 
-* Mon Jul 03 2023 yanglu <yanglu72@h-partners.com> - 6.3-7
-- Type:CVE
-- CVE:CVE-2023-29491
+* Tue Jul 04 2023 yanglu <yanglu72@h-partners.com> - 6.3-12
+- Type:bugfix
+- ID:NA
 - SUG:NA
-- DESC:fix CVE-2023-29491
+- DESC:fixes for out-of-memory condition
+
+* Mon Jul 03 2023 yanglu <yanglu72@h-partners.com> - 6.3-11
+- Type:CVE
+- ID:CVE-2023-29491
+- SUG:NA
+- DESC: fix CVE-2023-29491
+
+* Mon Jun 5 2023 liutie <liutie4@huawei.com> - 6.3-10
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC: Fixed the issue of not stripped
+
+* Mon May 22 2023 liutie <liutie4@huawei.com> - 6.3-9
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC: Generate the relocation subpackage
+
+* Mon May 22 2023 liutie <liutie4@huawei.com> - 6.3-8
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC: Fix can not find libtinfo.so.6
+
+* Mon May 8 2023 liutie <liutie4@huawei.com> - 6.3-7
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC: Independently generate the objreloc tool
 
 * Tue Feb 28 2023 zhujunhao <zhujunhao11@huawei.com> - 6.3-6
 - Type:bugfix
