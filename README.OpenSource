@@ -1,11 +1,11 @@
 [
   {
-    "Name": "ncurses",
+    "Name": "openEuler:ncurses",
     "License": "MIT",
     "License File": "COPYING",
-    "Version Number": "6.3",
-    "Owner": "leixin19@huawei.com",
-    "Upstream URL": "https://invisible-island.net/ncurses/ncurses.html",
+    "Version Number": "6.3-15.oe2203sp3",
+    "Owner": "liyiming13@huawei.com",
+    "Upstream URL": "https://repo.openeuler.org/openEuler-22.03-LTS-SP3/update/source/Packages/ncurses-6.3-15.oe2203sp3.src.rpm",
     "Description": "The ncurses (new curses) library is a free software emulation of curses in System V Release 4.0 (SVr4), and more. It uses terminfo format, supports pads and color and multiple highlights and forms characters and function-key mapping, and has all the other SVr4-curses enhancements over BSD curses. SVr4 curses became the basis of X/Open Curses."
   }
 ]
