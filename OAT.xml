@@ -27,6 +27,11 @@
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
                 <filteritem type="filename" name="ncurses.spec" desc="spec文件不涉及license"/>
                 <filteritem type="filename" name="COPYING" desc="InvalidLicense Filter"/>
+                <filteritem type="filename" name="ncurses.yaml" desc="文件不涉及license"/>
+            </filefilter>
+            <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
+                <filteritem type="filename" name="ncurses.spec"/>
+                <filteritem type="filename" name="ncurses.yaml"/>
             </filefilter>
         </filefilterlist>
     </oatconfig>
