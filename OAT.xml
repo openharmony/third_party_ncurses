@@ -22,16 +22,60 @@
     <licensefile>COPYING</licensefile>
         <filefilterlist>
             <filefilter name="binaryFileTypePolicyFilter" desc="Filters for binary file policies">
-                <filteritem type="filename" name="ncurses-6.3.tar.gz" desc="源码tar包来源于上游不涉及扫描"/>
+                <filteritem type="filepath" name="test/.*.dat" desc="Invalid File Type"/>
+                <filteritem type="filepath" name="doc/hackguide.doc" desc="Invalid File Type"/>
+                <filteritem type="filepath" name="doc/ncurses-intro.doc" desc="Invalid File Type"/> 
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
-                <filteritem type="filename" name="ncurses.spec" desc="spec文件不涉及license"/>
-                <filteritem type="filename" name="COPYING" desc="InvalidLicense Filter"/>
-                <filteritem type="filename" name="ncurses.yaml" desc="文件不涉及license"/>
+                <filteritem type="filename" name="ANNOUNCE|AUTHORS|changelog|configure|COPYING|copyright|dist.mk||INSTALL|install-sh|modules|TODO|TO-DO|MANIFEST|VERSION" desc="InvalidLicense Filter"/>
+                <filteritem type="filename" name="*.m4|*.sh|*.awk|*.ads|*.adb|*.adb_p|*.1|*.1m|*.3x|*.5|*.cc|*.cmd|*.hin|*.sed|*.spec|*.tail|README*|config.*|*ncurses_defs|Makefile.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="Ada95/gen/gen.c" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="Ada95/package/debian/.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="Ada95/samples/split-path.awk" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="Ada95/src/c_*.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="Ada95/src/ncurses_compat.c" desc="InvalidLicense Filter"/>
+                <filteritem type="filename" name="PROBLEMS|curses*.*|cursslk.h|headers|internal.h" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="form/.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="include/.*.h" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="include/capdefaults.c" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="include/Caps.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="man/manhtml.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="man/term*.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="menu/.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="misc/.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="ncurses/.*.c" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="ncurses/.*.h" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="ncurses/llib.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="package/.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="panel/.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="progs/.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="test/.*" desc="InvalidLicense Filter"/>
             </filefilter>
             <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
                 <filteritem type="filename" name="ncurses.spec"/>
                 <filteritem type="filename" name="ncurses.yaml"/>
+                <filteritem type="filename" name="ANNOUNCE|configure|dist.mk|install-sh|modules|TODO|TO-DO|MANIFEST|VERSION" desc="InvalidCopyright file"/>
+                <filteritem type="filename" name="*.m4|*.sh|*.awk|*.ads|*.adb|*.adb_p|*.1|*.1m|*.3x|*.5|*.cc|*.cmd|*.def|*.hin|*.sed|*.spec|*.tail|README*|config.*|*ncurses_defs|Makefile.*" desc="InvalidCopyright file"/>
+                <filteritem type="filepath" name="Ada95/gen/gen.c" desc="InvalidCopyright file"/>
+                <filteritem type="filepath" name="Ada95/package/debian/.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="Ada95/src/c_*.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filepath" name="Ada95/src/ncurses_compat.c" desc="InvalidLicense Filter"/>
+                <filteritem type="filename" name="PROBLEMS|curses*.*|cursslk.h|headers|internal.h" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="form/.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="include/.*.h" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="include/capdefaults.c" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="include/Caps.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="man/manhtml.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="man/term*.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="menu/.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="misc/.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="ncurses/.*.c" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="ncurses/.*.h" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="ncurses/llib.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="package/.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="panel/.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="progs/.*" desc="InvalidCopyright Filter"/>
+                <filteritem type="filepath" name="test/.*" desc="InvalidCopyright Filter"/>
             </filefilter>
         </filefilterlist>
     </oatconfig>
