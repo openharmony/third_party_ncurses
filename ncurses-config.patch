@@ -49,7 +49,7 @@ index 7b02ac2..b64379f 100644
  				do
  					if [ -d "$lib_check" ]
 @@ -271,7 +270,6 @@ ENDECHO
- 		echo $INCS
+ 		echo "$INCS"
  		;;
  	--libdir)
 -		echo "${libdir}"
