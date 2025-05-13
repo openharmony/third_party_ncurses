@@ -21,16 +21,47 @@ ncurses是一个编写文本界面（TUI）的接口库。是一个用于控制�
 在Openharonmy引入后，在lldb构建中开启编译可选依赖选项LLDB_ENABLE_CURSES，lldb.so会依赖ncurses编译生成的动态库ncurses.so，最终实现lldb调试器命令行调试时自动补齐和gui功能。
 ## 目录结构<a name="section367519246426"></a>
 ```
-- COPYING                           版权文件
-- OAT.xml                           OAT.xml过滤配置文件
+- Ada95                             
+- c++                               
+- doc                               
+- form                              
+- include                           
+- man
+- menu
+- misc
+- ncurses
+- package
+- panel
+- progs
+- test
+- aclocal.m4
+- ANNOUNCE
+- announce.html.in
+- AUTHORS
+- config.guess
+- config.sub
+- configure
+- configure.in
+- COPYING                              版权文件
+- dist.mk
+- INSTALL
+- install-sh
+- Makefile.in
+- Makefile.os2
+- MANIFEST
+- mk-0th.awk
+- mk-1st.awk
+- mk-2nd.awk
+- mk-hdr.awk
+- NEWS
+- OAT.xml                          OAT.xml过滤配置文件
+- README
+- README.emx
+- README.MinGW
 - README.OpenSource                 项目README.OpenSource文件
-- README.md                         英文说明
 - README_zh.md                      中文说明
-- backport-CVE-2022-29458.patch     CVE修复补丁 
-- ncurses-6.3.tar.gz                ncurses6.3源码压缩tar包
-- ncurses-xxx.patch                 上游更新补丁列表
-- ncurses.spec                      上游更新记录说明
-- ncurses.yaml                      yaml文件
+- TO-DO
+- VERSION
 ```
 ## 编译与安装<a name="section137768191623"></a>
 
