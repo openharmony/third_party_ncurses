@@ -46,6 +46,7 @@
                 <filteritem type="filepath" name="ncurses/.*.c" desc="InvalidLicense Filter"/>
                 <filteritem type="filepath" name="ncurses/.*.h" desc="InvalidLicense Filter"/>
                 <filteritem type="filepath" name="ncurses/llib.*" desc="InvalidLicense Filter"/>
+                <filteritem type="filename" name="ncurses.yaml" desc="InvalidLicense Filter"/>
                 <filteritem type="filepath" name="package/.*" desc="InvalidLicense Filter"/>
                 <filteritem type="filepath" name="panel/.*" desc="InvalidLicense Filter"/>
                 <filteritem type="filepath" name="progs/.*" desc="InvalidLicense Filter"/>
