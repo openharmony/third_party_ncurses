@@ -111,8 +111,14 @@ extern NCURSES_EXPORT(int)    _nc_console_vt_supported(void);
 extern NCURSES_EXPORT(int)    _nc_console_checkmintty(int fd, LPHANDLE pMinTTY);
 #endif
 
-#undef VALID_TERM_ENV
+/*
+ * Allow for build-override, e.g., MinGW used "cygwin".
+ */
+#ifndef MS_TERMINAL
 #define MS_TERMINAL "ms-terminal"
+#endif
+
+#undef VALID_TERM_ENV
 #define VALID_TERM_ENV(term_env, no_terminal) \
 	(term_env = (NonEmpty(term_env) \
 		      ? term_env \
