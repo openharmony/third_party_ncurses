@@ -192,7 +192,7 @@ railroad(char **args)
 
     if (name == 0)
 #ifdef EXP_WIN32_DRIVER
-	name = "ms-terminal";
+	name = MS_TERMINAL;;
 #else
 	name = "dumb";
 #endif
