@@ -2,7 +2,7 @@ diff --git a/misc/gen-pkgconfig.in b/misc/gen-pkgconfig.in
 index a45dd54..8527305 100644
 --- a/misc/gen-pkgconfig.in
 +++ b/misc/gen-pkgconfig.in
-@@ -85,7 +85,7 @@ if [ "$includedir" != "/usr/include" ]; then
+@@ -83,7 +83,7 @@ if [ "$includedir" != "/usr/include" ]; then
  fi
  
  lib_flags=
@@ -15,7 +15,7 @@ diff --git a/misc/ncurses-config.in b/misc/ncurses-config.in
 index 7b02ac2..b64379f 100644
 --- a/misc/ncurses-config.in
 +++ b/misc/ncurses-config.in
-@@ -42,7 +42,6 @@ exec_prefix="@exec_prefix@"
+@@ -41,7 +41,6 @@ exec_prefix="@exec_prefix@"
  
  bindir="@bindir@"
  includedir="@includedir@"
@@ -23,7 +23,7 @@ index 7b02ac2..b64379f 100644
  datarootdir="@datarootdir@"
  datadir="@datadir@"
  mandir="@mandir@"
-@@ -110,7 +109,7 @@ fi
+@@ -101,7 +100,7 @@ fi
  # There is no portable way to find the list of standard library directories.
  # Require a POSIX shell anyway, to keep this simple.
  lib_flags=
@@ -32,7 +32,7 @@ index 7b02ac2..b64379f 100644
  do
  	case $opt in
  	-specs*) # ignore linker specs-files which were used to build library
-@@ -131,13 +130,13 @@ do
+@@ -117,13 +116,13 @@ do
  		lib_check=`echo "x$opt" | sed -e 's/^.-L//'`
  		[ -d "$lib_check" ] || continue
  		case "$lib_check" in
@@ -40,7 +40,7 @@ index 7b02ac2..b64379f 100644
 +		////) # skip standard libdir (disabled for multilib)
  			if [ "$lib_check" = "$libdir" ]
  			then
- 				lib_first=no
+ 				lib_first=yes
  				IFS_save="$IFS"
  				IFS='|'
 -				LIBDIRS="@LD_SEARCHPATH@"
@@ -48,13 +48,13 @@ index 7b02ac2..b64379f 100644
  				for lib_check in $LIBDIRS
  				do
  					if [ -d "$lib_check" ]
-@@ -324,7 +323,6 @@
-		echo "$INCS"
-		;;
-	--libdir)
+@@ -271,7 +270,6 @@ ENDECHO
+ 		echo "$INCS"
+ 		;;
+ 	--libdir)
 -		echo "${libdir}"
-		;;
-	--mandir)
-		echo "${mandir}"
+ 		;;
+ 	--mandir)
+ 		echo "${mandir}"
 -- 
 2.33.0
